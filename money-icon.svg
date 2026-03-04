@@ -1,0 +1,20 @@
+<svg width="1024" height="1024" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="120" y1="120" x2="904" y2="904" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#0d7a60"/>
+      <stop offset="1" stop-color="#115443"/>
+    </linearGradient>
+    <linearGradient id="coin" x1="260" y1="220" x2="760" y2="800" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#ffe796"/>
+      <stop offset="1" stop-color="#c9931f"/>
+    </linearGradient>
+  </defs>
+
+  <rect x="64" y="64" width="896" height="896" rx="220" fill="url(#bg)"/>
+  <circle cx="512" cy="512" r="300" fill="url(#coin)" />
+  <circle cx="512" cy="512" r="252" fill="none" stroke="#fff5c7" stroke-opacity="0.65" stroke-width="20"/>
+
+  <path
+    d="M505 328c-76 0-137 47-137 113 0 63 48 95 125 112l35 8c44 10 64 24 64 45 0 27-31 44-78 44-49 0-88-17-116-51l-59 57c33 41 81 64 137 71v74h71v-74c80-9 131-55 131-121 0-70-52-100-132-118l-33-7c-41-9-61-22-61-43 0-24 28-39 70-39 40 0 73 14 99 42l58-56c-30-34-72-54-122-60v-73h-71v76z"
+    fill="#fff8da"/>
+</svg>

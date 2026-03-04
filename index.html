@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="/src/styles.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gold Reminder Widget</title>
+    <script type="module" src="/src/main.ts" defer></script>
+  </head>
+  <body>
+    <main class="widget">
+      <div id="dragTop" class="drag-top" title="按住顶部边框拖动"></div>
+      <header class="titlebar">
+        <button id="prevBtn" class="arrow-btn" type="button" title="上一个银行">
+          ‹
+        </button>
+        <div id="bankName" class="bank-name">--</div>
+        <button id="nextBtn" class="arrow-btn" type="button" title="下一个银行">
+          ›
+        </button>
+        <div class="spacer"></div>
+        <button id="minBtn" class="window-btn" type="button" title="缩小到托盘">
+          _
+        </button>
+        <button id="closeBtn" class="window-btn danger" type="button" title="退出">
+          ×
+        </button>
+      </header>
+
+      <section class="price-grid">
+        <article class="price-card">
+          <p class="price-label">人民币（元/克）</p>
+          <p id="priceCny" class="price-value">--</p>
+        </article>
+        <article class="price-card">
+          <p class="price-label">美元（美元/盎司）</p>
+          <p id="priceUsd" class="price-value">--</p>
+        </article>
+      </section>
+
+      <footer id="meta" class="meta">初始化中...</footer>
+    </main>
+  </body>
+</html>

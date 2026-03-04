@@ -9,13 +9,7 @@
 - 托盘菜单支持“显示窗口/退出”
 - 托盘左键双击恢复窗口
 
-## 数据源
-
-- 接口：`https://api.jijinhao.com/quoteCenter/realTime.htm`
-- 解析字段：`q63`
-- 可通过环境变量覆盖：
-  - `JIJINHAO_API_URL`
-  - `JIJINHAO_REFERER`
+- - 
 
 ## 开发运行
 
@@ -39,7 +33,7 @@ npm run tauri build -- --bundles nsis
 
 ![Gold Price Floating Window](asset/p2.png)
 
-## 资产文件
+## 已完成可下载直接用的资产文件
 
 `asset` 目录已包含可执行文件：
 

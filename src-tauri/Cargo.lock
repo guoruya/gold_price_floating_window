@@ -3637,7 +3637,7 @@ dependencies = [
 
 [[package]]
 name = "tauri-widget"
-version = "0.1.0"
+version = "1.1.0"
 dependencies = [
  "chrono",
  "reqwest 0.12.28",

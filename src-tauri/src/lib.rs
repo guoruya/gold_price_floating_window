@@ -19,7 +19,7 @@ struct BankDef {
     usd_code: &'static str,
 }
 
-const BANKS: [BankDef; 4] = [
+const BANKS: [BankDef; 7] = [
     BankDef {
         id: "ICBC",
         label: "工行",
@@ -43,6 +43,24 @@ const BANKS: [BankDef; 4] = [
         label: "农行",
         cny_code: "JO_283972",
         usd_code: "JO_283974",
+    },
+    BankDef {
+        id: "CIB",
+        label: "兴业",
+        cny_code: "JO_283982",
+        usd_code: "JO_283981",
+    },
+    BankDef {
+        id: "CMB",
+        label: "招商",
+        cny_code: "JO_283982",
+        usd_code: "JO_283981",
+    },
+    BankDef {
+        id: "JDMS",
+        label: "京东民生",
+        cny_code: "JO_283982",
+        usd_code: "JO_283981",
     },
 ];
 
@@ -173,6 +191,19 @@ fn ms_to_iso(ms: Option<i64>) -> Option<String> {
         .map(|dt: DateTime<Utc>| dt.to_rfc3339())
 }
 
+fn cny_offset_from_boc(bank_id: &str) -> f64 {
+    match bank_id {
+        "ICBC" | "CCB" | "ABC" | "JDMS" => 4.0,
+        "CIB" => 5.0,
+        "CMB" => 6.0,
+        _ => 0.0,
+    }
+}
+
+fn is_derived_from_boc(bank_id: &str) -> bool {
+    matches!(bank_id, "ICBC" | "CCB" | "ABC" | "CIB" | "CMB" | "JDMS")
+}
+
 fn show_main_window(app: &AppHandle) {
     if let Some(window) = app.get_webview_window("main") {
         let _ = window.show();
@@ -185,24 +216,36 @@ fn build_snapshot_row(bank: &BankDef, payload: &Value) -> BankSnapshot {
     let empty = Value::Null;
     let cny = payload.get(bank.cny_code).unwrap_or(&empty);
     let usd = payload.get(bank.usd_code).unwrap_or(&empty);
+    let mut cny_value = to_number(cny.get("q63"));
+    if let Some(base_cny_value) = cny_value {
+        cny_value = Some(base_cny_value + cny_offset_from_boc(bank.id));
+    }
 
     BankSnapshot {
         bank_id: bank.id.to_string(),
         bank_label: bank.label.to_string(),
         cny: Quote {
-            value: to_number(cny.get("q63")),
+            value: cny_value,
             digits: to_u32(cny.get("digits")),
             unit: to_string(cny.get("unit")).unwrap_or_else(|| "元/克".to_string()),
-            show_name: to_string(cny.get("showName"))
-                .unwrap_or_else(|| format!("{}纸黄金(人民币)", bank.label)),
+            show_name: if is_derived_from_boc(bank.id) {
+                format!("{}纸黄金(人民币)", bank.label)
+            } else {
+                to_string(cny.get("showName"))
+                    .unwrap_or_else(|| format!("{}纸黄金(人民币)", bank.label))
+            },
             quoted_at: ms_to_iso(to_i64(cny.get("time"))),
         },
         usd: Quote {
             value: to_number(usd.get("q63")),
             digits: to_u32(usd.get("digits")),
             unit: to_string(usd.get("unit")).unwrap_or_else(|| "美元/盎司".to_string()),
-            show_name: to_string(usd.get("showName"))
-                .unwrap_or_else(|| format!("{}纸黄金(美元)", bank.label)),
+            show_name: if is_derived_from_boc(bank.id) {
+                format!("{}纸黄金(美元)", bank.label)
+            } else {
+                to_string(usd.get("showName"))
+                    .unwrap_or_else(|| format!("{}纸黄金(美元)", bank.label))
+            },
             quoted_at: ms_to_iso(to_i64(usd.get("time"))),
         },
     }
